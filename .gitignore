@@ -41,4 +41,6 @@
 *.recipe
 *.lastbuildstate
 *.ilk
+*.txt
+*.log
 */Debug/*.log

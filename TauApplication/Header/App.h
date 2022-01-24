@@ -1,8 +1,6 @@
-#ifndef APP_H_
+﻿#ifndef APP_H_
 #define APP_H_
 #include <Windows.h>
-
-#include <functional>
 
 #include "../Include/TString.h"
 namespace Tau {
@@ -28,6 +26,26 @@ public:
 private:
   static HINSTANCE m_hInstance;
   static Type::tstring m_name;
+};
+class GameBase : public App {
+public:
+  GameBase(const HINSTANCE& hInstance, const Type::tstring& name)
+      : App(hInstance, name) {}
+  virtual ~GameBase() {}
+
+  virtual void Initialize() = 0;
+  virtual void Run() final;
+  virtual void UpdateLogic() = 0;
+  virtual void UpdateRender() = 0;
+  virtual void Destroy() = 0;
+
+  static DWORD GetFrame() { return GameBase::m_frame; }
+
+  GameBase(const GameBase&) = delete;
+  GameBase& operator=(const GameBase&) = delete;
+
+private:
+  static DWORD m_frame;
 };
 }  // namespace Tau
 #endif

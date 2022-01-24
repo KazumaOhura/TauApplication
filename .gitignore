@@ -43,4 +43,5 @@
 *.ilk
 *.txt
 *.log
+*.pu
 */Debug/*.log

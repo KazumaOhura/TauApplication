@@ -1,10 +1,10 @@
-#ifndef WINDOW_H_
+﻿#ifndef WINDOW_H_
 #define WINDOW_H_
 #include <Windows.h>
 #include <tchar.h>
 
-#include "../Include/RectSize.h"
-#include "../Include/TString.h"
+#include "Include/RectSize.h"
+#include "Include/TString.h"
 namespace Tau {
 class Window {
 public:

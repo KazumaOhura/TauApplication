@@ -1,4 +1,4 @@
-﻿#include "Include/App.h"
+#include "Include/App.h
 
 namespace Tau {
 HINSTANCE App::m_hInstance = nullptr;

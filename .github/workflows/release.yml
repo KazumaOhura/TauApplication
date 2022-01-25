@@ -3,7 +3,7 @@ name: release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -20,58 +20,50 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m -p:OutDir="out/" /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform="${{env.BUILD_ARCH}}" ${{env.SOLUTION_FILE_PATH}}
-      shell: cmd
-
-    - name: Set version
-      id: version
-      run: |
-        REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-        VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
-        echo ::set-output name=version::$VERSION
-        echo ::set-output name=filename::$REPOSITORY-$VERSION
-      
-    - name: Upload a Artifact
-      uses: actions/upload-artifact@v2.3.1
-      with:
-        name: tau_application
-        path: |
-              TauApplication/out/TauApplication.lib
-              TauApplication/Include
-
-    - run: |
-        zip tau_application.zip tau_application
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ version.VERSION }}
-        release_name: Release ${{ version.VERSION }}
-        body: |
-          Changes in this Release
-          - First Change
-          - Second Change
-        draft: true
-        prerelease: true
-
-    - uses: actions/upload-release-asset@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./tau_application.zip
-        asset_name: tau_application.zip
-        asset_content_type: application/zip
-
+      - uses: actions/checkout@v2
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Build
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        # Add additional options to the MSBuild command line here (like platform or verbosity level).
+        # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+        run: msbuild /m -p:OutDir="out/" /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform="${{env.BUILD_ARCH}}" ${{env.SOLUTION_FILE_PATH}}
+        shell: cmd
+      - name: Set version
+        id: version
+        run: |
+          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
+          echo ::set-output name=version::$VERSION
+          echo ::set-output name=filename::$REPOSITORY-$VERSION
+      - name: Upload a Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: tau_application
+          path: |
+            TauApplication/out/TauApplication.lib
+            TauApplication/Include
+      - run: |
+          zip tau_application.zip tau_application
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          release_name: Release ${{ steps.version.outputs.VERSION }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: true
+          prerelease: true
+      - uses: actions/upload-release-asset@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tau_application.zip
+          asset_name: tau_application.zip
+          asset_content_type: application/zip

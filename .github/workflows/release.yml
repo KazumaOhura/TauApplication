@@ -32,8 +32,8 @@ jobs:
       - name: Set version
         id: version
         run: |
-          REPOSITORY=$(echo ${{ github.repository }} -replace "s#.*/##")
-          VERSION=$(echo ${{ github.ref }} -replace "s#refs/tags/##g")
+          $REPOSITORY="${{ github.repository }}" -replace "([^/]+/)"
+          $VERSION="${{ github.ref }}" -replace "([^/]+/)"
           echo "::set-output name=version::$VERSION"
           echo "::set-output name=filename::$REPOSITORY-$VERSION"
       - name: Upload a Artifact

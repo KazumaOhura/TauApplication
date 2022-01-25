@@ -32,10 +32,10 @@ jobs:
       - name: Set version
         id: version
         run: |
-          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
-          echo ::set-output name=version::$VERSION
-          echo ::set-output name=filename::$REPOSITORY-$VERSION
+          REPOSITORY=$(echo ${{ github.repository }} -replace "s#.*/##")
+          VERSION=$(echo ${{ github.ref }} -replace "s#refs/tags/##g")
+          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=filename::$REPOSITORY-$VERSION"
       - name: Upload a Artifact
         uses: actions/upload-artifact@v2.3.1
         with:

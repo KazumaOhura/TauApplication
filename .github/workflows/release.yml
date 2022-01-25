@@ -54,17 +54,17 @@ jobs:
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ version.VERSION }}
-          release_name: Release ${{ version.VERSION }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: true
-          prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ version.VERSION }}
+        release_name: Release ${{ version.VERSION }}
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: true
+        prerelease: true
 
     - uses: actions/upload-release-asset@latest
       env:

@@ -1,4 +1,4 @@
-﻿#include "../Header/Window.h"
+﻿#include "Include/Window.h"
 
 namespace Tau {
 Window::Window(Type::tstring pWindowName, const HINSTANCE& hInstance,

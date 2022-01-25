@@ -2,7 +2,7 @@
 #define APP_H_
 #include <Windows.h>
 
-#include "../Include/TString.h"
+#include "Include/TString.h"
 namespace Tau {
 class App {
 public:
